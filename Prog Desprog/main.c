@@ -7,6 +7,9 @@ typedef int bool;
 #define true 1
 #define false 0
 
+//Feito por Pedro Giuliano Farina 31734391 e Victor Victor Vasconcellos Borba 31716369
+//http://github.com/PedroFarina/Facul
+
 /* run this program using the console pauser or add your own getch, system("pause") or input loop */
 
 void Codifica(char *, int);
@@ -22,7 +25,7 @@ int main(int argc, char *argv[]) {
 	scanf("%s", str);
 	CodificaPadrao(str, 200);
 	printf("%s\n", str);
-	//Descodifica(str, 200);
+	Descodifica(str, 200);
 	printf("%s\n", str);
 	return 0;
 }
@@ -64,16 +67,16 @@ void CodificaPadrao(char *str, int len){
 	
 	while(i < len){
 		c = str[i];
-		
-		if(achouPadrao){
-			if(c==padrao[nTeste]){
+		bool TodosIguais = TodosSao(padrao, lenPadrao, c);			//Condição de todos itens do vetor serem iguais.
+		if(achouPadrao){											//Se um padrão já foi achado.
+			if(c==padrao[nTeste]){									//Se o caractere examinado corresponde ao que procuramos, adicionamos um ao nTeste, e verificamos se chegamos ao fim do padrão.
 				nTeste++;
 				if(nTeste==lenPadrao){
 					acumulaPadrao++;
 					nTeste = 0;
 				}
 			}
-			else{
+			else{													//Se o caractere examinado não for o que estavamos procurando, devemos colocar a quantia de padrões acumulados e voltar o i para a posição anterior antes de começarmos os testes.
 				achouPadrao = false;
 				for(i3=0; i3<lenPadrao; i3++){
 					str2[i2 + i3] = padrao[i3];
@@ -87,25 +90,37 @@ void CodificaPadrao(char *str, int len){
 				lenPadrao = 0;
 			}
 		}
-		else if(c == padrao[0] && !TodosSao(padrao, lenPadrao, c)){
-			achouPadrao = true;
-			nTeste = 1;
-			acumulaPadrao = 1;
+		else if(c == padrao[0]){									//Caso não tenhamos achado um padrão ainda, e o caractere é a repetição do primeiro caractere no nosso vetor de padrões vemos se já é um padrão ou não.
+			if(lenPadrao > 1 && TodosIguais){
+				acumulaPadrao = lenPadrao + 1;
+				lenPadrao = 1;
+				achouPadrao = true;
+				nTeste = 0;
+			}
+			else if(!TodosIguais){
+				achouPadrao = true;
+				nTeste = 1;
+				acumulaPadrao = 1;
+			}
+			else{
+				padrao[lenPadrao] = c;
+				lenPadrao++;
+			}
 		}
-		else{
+		else{														//Caso não se encaixe nos outros ifs, significa que ainda não achamos um padrão.
 			padrao[lenPadrao] = c;
 			lenPadrao++;
 		}
 		
-		if(str[i] == '\0'){
-			if(lenPadrao > 1){
-				if(TodosSao(padrao, lenPadrao, padrao[0])){
+		if(str[i] == '\0'){										//Fim da string.
+			if(lenPadrao > 1){									//Se havia uma identificação de padrão em andamento.
+				if(TodosSao(padrao, lenPadrao, padrao[0])){		//Se são todos iguais.
 					str2[i2] = padrao[0];
 					i2++;
 					i2 += sprintf(&str2[i2], "%d", lenPadrao-1);
 					str2[i2] = '\0';
 				}
-				else{
+				else{											//Se não eram iguais.
 					for(i2=i2; i2<i2Anterior+lenPadrao - 1; i2+= lenPadrao-1){
 						for(i3=0; i3<lenPadrao-1; i3++){
 							str2[i2 + i3] = padrao[i3];
@@ -117,11 +132,9 @@ void CodificaPadrao(char *str, int len){
 					i2++;	
 				}
 			}
-			else{
+			else{												//Caso a sequencia tenha terminado num padrão certinho apenas substituimos o '-', ultimo valor colocado no vetor, por \0, sinalizando o fim da string.
 				str2[i2-1] = '\0';
 			}
-			int k;
-			printf("%s\n", str2);
 			break;
 		}
 		i++;
@@ -148,9 +161,8 @@ void Descodifica(char *str, int len){
 			for(i5=0; i5 < i3; i5++){
 				total += Elevar(10, i5) * (str3[i5] - '0');
 			}
-			//printf("O total e %d.\n", total);
 			
-			for(i2 = i2; i2 < i2Anterior + total;i2 += i4){
+			for(i2 = i2; i2 < i2Anterior + total * i4;i2 += i4){
 				for(i5 = 0; i5 < i4; i5++){
 					str2[i2 + i5] = str4[i5];
 				}
