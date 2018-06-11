@@ -7,7 +7,8 @@ typedef int bool;
 #define true 1
 #define false 0
 
-//Feito por Pedro Giuliano Farina 31734391 e Victor Victor Vasconcellos Borba 31716369
+//Programado por Pedro Giuliano Farina 31734391
+//				 Victor Vasconcellos Borba 31716369
 //http://github.com/PedroFarina/Facul
 
 /* run this program using the console pauser or add your own getch, system("pause") or input loop */
