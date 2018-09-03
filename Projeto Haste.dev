@@ -1,6 +1,6 @@
 [Project]
-FileName=ProgDesprog.dev
-Name=ProgDesprog
+FileName=Projeto Haste.dev
+Name=Projeto Haste sem prog din
 Type=1
 Ver=2
 ObjFiles=
@@ -28,7 +28,7 @@ Folders=
 IncludeVersionInfo=0
 SupportXPThemes=0
 CompilerSet=0
-CompilerSettings=0000000000000000001000000
+CompilerSettings=0000000000000000000000000
 UnitCount=1
 
 [VersionInfo]
